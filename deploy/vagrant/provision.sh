@@ -11,7 +11,7 @@ else
     echo "Installing micro binaries..."
     [ ! -f "microservice-app-v1.0.1-linux-amd64.tar.gz" ] && wget -q https://github.com/buptmiao/microservice-app/releases/download/v1.0.1/microservice-app-v1.0.1-linux-amd64.tar.gz
     sudo tar -xzf microservice-app-v1.0.1-linux-amd64.tar.gz -C .
-    sudo cp -a go-micro-service-v1.0.1-linux-amd64/* /usr/local/bin/
+    sudo cp -a microservice-app-v1.0.1-linux-amd64/* /usr/local/bin/
 fi
 
 echo "export PATH=$PATH:/usr/local/bin
