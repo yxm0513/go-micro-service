@@ -30,7 +30,7 @@ services:
     container_name: elasticsearch
     ports:
       # http
-      - 9200:9200
+      - 3200:9200
     networks:
       - back-tier
 
@@ -74,7 +74,7 @@ services:
         - back-tier
 
   feed:
-    image: buptmiao/feed:v1.0.1
+    image: feed:latest
     depends_on:
       - etcd
       - zipkin
@@ -85,7 +85,7 @@ services:
     networks:
       - back-tier
   profile:
-    image: buptmiao/profile:v1.0.1
+    image: profile:latest
     depends_on:
       - etcd
       - zipkin
@@ -96,7 +96,7 @@ services:
     networks:
       - back-tier
   topic:
-    image: buptmiao/topic:v1.0.1
+    image: topic:latest
     depends_on:
       - etcd
       - zipkin
@@ -108,16 +108,14 @@ services:
       - back-tier
 
   apigateway:
-    image: buptmiao/apigateway:v1.0.1
+    image: apigateway:latest
 
     command:
-      - '-http.addr=0.0.0.0:8080'
+      - '-http.addr=0.0.0.0:8081'
       - '-etcd.addr=http://etcd:2379'
       - '-zipkin.addr=http://zipkin:9411/api/v1/spans'
-    expose:
-      - 8080
     ports:
-      - 8080:8080
+      - 8081:8081
       - 6060:6060
     depends_on:
       - etcd

@@ -26,6 +26,7 @@ services:
       - back-tier
 
   feed:
+    image: feed:latest
     build:
         context: ./
         dockerfile: Dockerfile.feed
@@ -38,6 +39,7 @@ services:
       - back-tier
 
   profile:
+    image: profile:latest
     build:
         context: ./
         dockerfile: Dockerfile.profile
@@ -50,6 +52,7 @@ services:
       - back-tier
 
   topic:
+    image: topic:latest
     build:
         context: ./
         dockerfile: Dockerfile.topic
@@ -62,16 +65,15 @@ services:
       - back-tier
 
   apigateway:
+    image: apigateway:latest
     build:
         context: ./
         dockerfile: Dockerfile.apigateway
     command:
-      - '-http.addr=0.0.0.0:8080'
+      - '-http.addr=0.0.0.0:8081'
       - '-etcd.addr=http://etcd:2379'
-    expose:
-      - 8080
     ports:
-      - 8080:8080
+      - 8081:8080
       - 6060:6060
     depends_on:
       - etcd
