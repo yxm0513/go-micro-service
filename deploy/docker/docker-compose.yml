@@ -27,6 +27,7 @@ services:
 
   feed:
     build:
+        context: ./
         dockerfile: Dockerfile.feed
     depends_on:
       - etcd
@@ -38,6 +39,7 @@ services:
 
   profile:
     build:
+        context: ./
         dockerfile: Dockerfile.profile
     depends_on:
       - etcd
@@ -49,6 +51,7 @@ services:
 
   topic:
     build:
+        context: ./
         dockerfile: Dockerfile.topic
     depends_on:
       - etcd
