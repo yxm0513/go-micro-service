@@ -63,6 +63,7 @@ services:
 
   apigateway:
     build:
+        context: ./
         dockerfile: Dockerfile.apigateway
     command:
       - '-http.addr=0.0.0.0:8080'

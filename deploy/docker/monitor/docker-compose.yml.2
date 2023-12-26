@@ -13,8 +13,18 @@ networks:
       name: docker_back-tier
 
 services:
+  node-exporter:
+    container_name: node-exporter
+    image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - 9100:9100
+    restart: unless-stopped
+    networks:
+      - back-tier
+      - docker_back-tier
+
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v1.8.2
     volumes:
       - ./prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -36,7 +46,7 @@ services:
       - docker_back-tier
 
   alertmanager:
-    image: prom/alertmanager
+    image: prom/alertmanager:v0.9.1
     ports:
       - 9093:9093
     volumes:
@@ -60,7 +70,7 @@ services:
       - back-tier
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:9.3.2
     depends_on:
       - prometheus
     ports:
