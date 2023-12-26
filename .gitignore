@@ -1,0 +1,5 @@
+
+deploy/vagrant/.vagrant/*
+deploy/docker/monitor/*/plugins
+deploy/docker/monitor/*/sessions
+deploy/docker/monitor/*/grafana.db

@@ -1,0 +1,76 @@
+version: '2'
+
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
+
+services:
+  etcd:
+    image: quay.io/coreos/etcd
+    command: >-
+      /usr/local/bin/etcd
+      -name etcd0
+      -advertise-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001
+      -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001
+      -initial-advertise-peer-urls http://0.0.0.0:2380
+      -initial-cluster-token etcd-cluster-1
+      -initial-cluster etcd0=http://0.0.0.0:2380
+      -initial-cluster-state new
+    ports:
+      - 2379:2379
+      - 2380:2380
+      - 4001:4001
+    networks:
+      - back-tier
+
+  feed:
+    build:
+        dockerfile: Dockerfile.feed
+    depends_on:
+      - etcd
+    command:
+      - '-addr=feed:8082'
+      - '-etcd.addr=http://etcd:2379'
+    networks:
+      - back-tier
+
+  profile:
+    build:
+        dockerfile: Dockerfile.profile
+    depends_on:
+      - etcd
+    command:
+      - '-addr=profile:8083'
+      - '-etcd.addr=http://etcd:2379'
+    networks:
+      - back-tier
+
+  topic:
+    build:
+        dockerfile: Dockerfile.topic
+    depends_on:
+      - etcd
+    command:
+      - '-addr=topic:8084'
+      - '-etcd.addr=http://etcd:2379'
+    networks:
+      - back-tier
+
+  apigateway:
+    build:
+        dockerfile: Dockerfile.apigateway
+    command:
+      - '-http.addr=0.0.0.0:8080'
+      - '-etcd.addr=http://etcd:2379'
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+      - 6060:6060
+    depends_on:
+      - etcd
+    networks:
+      - back-tier
+      - front-tier
