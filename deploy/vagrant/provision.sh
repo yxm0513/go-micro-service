@@ -9,8 +9,8 @@ if [ `hostname` == "node-0" ];then
     sudo cp -a etcd-v3.0.0-linux-amd64/{etcd,etcdctl} /usr/local/bin/
 else
     echo "Installing micro binaries..."
-    [ ! -f "go-micro-service-v1.0.1-linux-amd64.tar.gz" ] && wget -q https://github.com/buptmiao/microservice-app/releases/download/v1.0.1/go-micro-service-v1.0.1-linux-amd64.tar.gz
-    sudo tar -xzf go-micro-service-v1.0.1-linux-amd64.tar.gz -C .
+    [ ! -f "microservice-app-v1.0.1-linux-amd64.tar.gz" ] && wget -q https://github.com/buptmiao/microservice-app/releases/download/v1.0.1/microservice-app-v1.0.1-linux-amd64.tar.gz
+    sudo tar -xzf microservice-app-v1.0.1-linux-amd64.tar.gz -C .
     sudo cp -a go-micro-service-v1.0.1-linux-amd64/* /usr/local/bin/
 fi
 
