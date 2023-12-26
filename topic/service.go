@@ -2,7 +2,7 @@ package topic
 
 import (
 	"errors"
-	"github.com/yxm0513/microservice-app/proto/topic"
+	"github.com/yxm0513/go-micro-service/proto/topic"
 	"golang.org/x/net/context"
 	"sync"
 )

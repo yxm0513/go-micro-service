@@ -1,4 +1,4 @@
-module github.com/yxm0513/microservice-app
+module github.com/yxm0513/go-micro-service
 
 go 1.20
 

@@ -42,7 +42,7 @@ deploy
 目前使用了两种应用部署方式:传统部署方式和容器化部署方式
 
 #### 1. 传统部署
- 如果你熟悉[vagrant](https://www.vagrantup.com/), vagrant目录下有具体部署细节. 参考[Vagrantfile](https://github.com/yxm0513/microservice-app/blob/master/vagrant/Vagrantfile) 和 [provision.sh](https://github.com/yxm0513/microservice-app/blob/master/vagrant/provision.sh)
+ 如果你熟悉[vagrant](https://www.vagrantup.com/), vagrant目录下有具体部署细节. 参考[Vagrantfile](https://github.com/yxm0513/go-micro-service/blob/master/vagrant/Vagrantfile) 和 [provision.sh](https://github.com/yxm0513/go-micro-service/blob/master/vagrant/provision.sh)
  总的来讲,项目使用vagrant虚拟化了5个节点, 节点0部署etcd, 节点1-4分别部署service-feed, service-profile, service-topic, apigateway.
 ```ruby
  $nodes = 5
@@ -108,7 +108,7 @@ $ exit
 
 #### 2. 容器化部署
 
-如果你对docker熟悉的话, docker目录下提供了构建镜像的脚本 [start.sh](https://github.com/yxm0513/microservice-app/blob/master/docker/build.sh).
+如果你对docker熟悉的话, docker目录下提供了构建镜像的脚本 [start.sh](https://github.com/yxm0513/go-micro-service/blob/master/docker/build.sh).
 ```
 ./start.sh
 ```
@@ -126,7 +126,7 @@ $ curl -XGET "http://localhost:8080/api/feed/get_feeds?user_id=123&&size=2"     
 
 #### 启动监视器
 
-启动监视器之前请先阅读[README](https://github.com/yxm0513/microservice-app/blob/master/monitor/README.md). 
+启动监视器之前请先阅读[README](https://github.com/yxm0513/go-micro-service/blob/master/monitor/README.md). 
 
 如果是使用方式1部署的应用, 在monitor目录下, 可以通过如下配置target, 来监视app
 
@@ -182,7 +182,7 @@ $ curl -XGET "http://localhost:8080/api/feed/get_feeds?user_id=123&&size=2"     
 浏览器打开[http://localhost:9411](http://localhost:9411), 服务名选择http, 并选择合适的时间范围, 然后点击Find traces, 便可找到这3条traces.
 随便点一条进去可以看到如下图所示跟踪轨迹(由于该App功能简单,调用深度目前只有两层):
  
-![tracing](https://github.com/yxm0513/microservice-app/blob/master/pictures/tracing.png) 
+![tracing](https://github.com/yxm0513/go-micro-service/blob/master/pictures/tracing.png) 
 
 ### 六. Todo
 * 使用kubenetes部署整个应用

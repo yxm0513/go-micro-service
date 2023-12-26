@@ -7,8 +7,8 @@ import (
 	"github.com/go-kit/kit/sd/etcd"
 	stdopentracing "github.com/opentracing/opentracing-go"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"github.com/yxm0513/microservice-app/profile"
-	p_profile "github.com/yxm0513/microservice-app/proto/profile"
+	"github.com/yxm0513/go-micro-service/profile"
+	p_profile "github.com/yxm0513/go-micro-service/proto/profile"
 	"net/http"
 	"net/http/pprof"
 

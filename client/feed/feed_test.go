@@ -3,9 +3,9 @@ package feed_test
 import (
 	"github.com/go-kit/kit/log"
 	"github.com/opentracing/opentracing-go"
-	client "github.com/yxm0513/microservice-app/client/feed"
-	"github.com/yxm0513/microservice-app/feed"
-	p_feed "github.com/yxm0513/microservice-app/proto/feed"
+	client "github.com/yxm0513/go-micro-service/client/feed"
+	"github.com/yxm0513/go-micro-service/feed"
+	p_feed "github.com/yxm0513/go-micro-service/proto/feed"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"net"

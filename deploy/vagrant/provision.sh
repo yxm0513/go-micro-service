@@ -9,9 +9,9 @@ if [ `hostname` == "node-0" ];then
     sudo cp -a etcd-v3.0.0-linux-amd64/{etcd,etcdctl} /usr/local/bin/
 else
     echo "Installing micro binaries..."
-    [ ! -f "microservice-app-v1.0.1-linux-amd64.tar.gz" ] && wget -q https://github.com/yxm0513/microservice-app/releases/download/v1.0.1/microservice-app-v1.0.1-linux-amd64.tar.gz
-    sudo tar -xzf microservice-app-v1.0.1-linux-amd64.tar.gz -C .
-    sudo cp -a microservice-app-v1.0.1-linux-amd64/* /usr/local/bin/
+    [ ! -f "go-micro-service-v1.0.1-linux-amd64.tar.gz" ] && wget -q https://github.com/yxm0513/go-micro-service/releases/download/v1.0.1/go-micro-service-v1.0.1-linux-amd64.tar.gz
+    sudo tar -xzf go-micro-service-v1.0.1-linux-amd64.tar.gz -C .
+    sudo cp -a go-micro-service-v1.0.1-linux-amd64/* /usr/local/bin/
 fi
 
 echo "export PATH=$PATH:/usr/local/bin
@@ -20,9 +20,9 @@ export ETCD_ENDPOINT=$ETCD_ENDPOINT" >> /home/vagrant/.bash_profile
 
 source /home/vagrant/.bash_profile
 
-#go get -u github.com/buptmiao/microservice-app
+#go get -u github.com/buptmiao/go-micro-service
 #
-#cd $GOPATH/src/github.com/buptmiao/microservice-app
+#cd $GOPATH/src/github.com/buptmiao/go-micro-service
 #
 #go get ./...
 #

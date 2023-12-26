@@ -15,10 +15,10 @@ import (
 	stdopentracing "github.com/opentracing/opentracing-go"
 	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"github.com/yxm0513/microservice-app/apigateway"
-	"github.com/yxm0513/microservice-app/client/feed"
-	"github.com/yxm0513/microservice-app/client/profile"
-	"github.com/yxm0513/microservice-app/client/topic"
+	"github.com/yxm0513/go-micro-service/apigateway"
+	"github.com/yxm0513/go-micro-service/client/feed"
+	"github.com/yxm0513/go-micro-service/client/profile"
+	"github.com/yxm0513/go-micro-service/client/topic"
 )
 
 func main() {

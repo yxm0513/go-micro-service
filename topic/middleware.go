@@ -11,7 +11,7 @@ import (
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	stdopentracing "github.com/opentracing/opentracing-go"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"github.com/yxm0513/microservice-app/proto/topic"
+	"github.com/yxm0513/go-micro-service/proto/topic"
 	oldcontext "golang.org/x/net/context"
 	"time"
 )

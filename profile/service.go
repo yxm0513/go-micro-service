@@ -2,7 +2,7 @@ package profile
 
 import (
 	"errors"
-	"github.com/yxm0513/microservice-app/proto/profile"
+	"github.com/yxm0513/go-micro-service/proto/profile"
 	"golang.org/x/net/context"
 	"sync"
 )

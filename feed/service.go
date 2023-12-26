@@ -2,7 +2,7 @@ package feed
 
 import (
 	"errors"
-	"github.com/yxm0513/microservice-app/proto/feed"
+	"github.com/yxm0513/go-micro-service/proto/feed"
 	"golang.org/x/net/context"
 	"sync"
 )

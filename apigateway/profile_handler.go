@@ -2,8 +2,8 @@ package apigateway
 
 import (
 	"github.com/gin-gonic/gin"
-	profile_client "github.com/yxm0513/microservice-app/client/profile"
-	"github.com/yxm0513/microservice-app/proto/profile"
+	profile_client "github.com/yxm0513/go-micro-service/client/profile"
+	"github.com/yxm0513/go-micro-service/proto/profile"
 	"golang.org/x/net/context"
 	"net/http"
 	"strconv"

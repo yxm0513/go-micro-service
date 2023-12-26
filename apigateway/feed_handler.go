@@ -2,8 +2,8 @@ package apigateway
 
 import (
 	"github.com/gin-gonic/gin"
-	feed_client "github.com/yxm0513/microservice-app/client/feed"
-	"github.com/yxm0513/microservice-app/proto/feed"
+	feed_client "github.com/yxm0513/go-micro-service/client/feed"
+	"github.com/yxm0513/go-micro-service/proto/feed"
 	"golang.org/x/net/context"
 	"net/http"
 	"strconv"
