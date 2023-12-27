@@ -1,4 +1,4 @@
-package apigateway
+package lib
 
 import (
 	"github.com/gin-gonic/gin"

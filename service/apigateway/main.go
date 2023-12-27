@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+
 	"net/http"
 	"net/http/pprof"
 	"os"
@@ -13,12 +14,12 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/sd/etcd"
 	stdopentracing "github.com/opentracing/opentracing-go"
-	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
+	zipkin "github.com/openzipkin/zipkin-go-opentracing"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"github.com/yxm0513/go-micro-service/apigateway"
 	"github.com/yxm0513/go-micro-service/client/feed"
 	"github.com/yxm0513/go-micro-service/client/profile"
 	"github.com/yxm0513/go-micro-service/client/topic"
+	"github.com/yxm0513/go-micro-service/service/apigateway/lib"
 )
 
 func main() {
@@ -90,7 +91,7 @@ func main() {
 	topic.InitWithSD(sdClient, tracer, logger)
 
 	router := gin.New()
-	apigateway.Register(router)
+	lib.Register(router)
 
 	server := &http.Server{Addr: *httpAddr, Handler: router}
 	if err = gracehttp.Serve(server); err != nil {

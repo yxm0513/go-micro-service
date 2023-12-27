@@ -1,28 +1,28 @@
 package topic_test
 
 import (
-	"fmt"
-	"github.com/go-kit/kit/log"
-	"github.com/opentracing/opentracing-go"
-	client "github.com/yxm0513/go-micro-service/client/topic"
-	p_topic "github.com/yxm0513/go-micro-service/proto/topic"
-	"github.com/yxm0513/go-micro-service/topic"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"net"
-	"testing"
-	"time"
+    "fmt"
+    "github.com/go-kit/kit/log"
+    "github.com/opentracing/opentracing-go"
+    client "github.com/yxm0513/go-micro-service/client/topic"
+    p_topic "github.com/yxm0513/go-micro-service/proto/topic"
+    "github.com/yxm0513/go-micro-service/service/topic/lib"
+    "golang.org/x/net/context"
+    "google.golang.org/grpc"
+    "net"
+    "testing"
+    "time"
 )
 
 func runTopicServer(addr string) *grpc.Server {
-	service := topic.NewTopicService()
+	service := lib.NewTopicService()
 	ctx := context.Background()
 
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		panic(err)
 	}
-	srv := topic.MakeGRPCServer(ctx, service, opentracing.NoopTracer{}, log.NewNopLogger())
+	srv := lib.MakeGRPCServer(ctx, service, opentracing.NoopTracer{}, log.NewNopLogger())
 	s := grpc.NewServer()
 	p_topic.RegisterTopicServer(s, srv)
 

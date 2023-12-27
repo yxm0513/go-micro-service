@@ -7,10 +7,10 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/sd/etcd"
 	stdopentracing "github.com/opentracing/opentracing-go"
-	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
+	zipkin "github.com/openzipkin/zipkin-go-opentracing"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"github.com/yxm0513/go-micro-service/feed"
-	p_feed "github.com/yxm0513/go-micro-service/proto/feed"
+	p_topic "github.com/yxm0513/go-micro-service/proto/topic"
+	"github.com/yxm0513/go-micro-service/service/topic/lib"
 	"google.golang.org/grpc"
 	"net"
 	"net/http"
@@ -19,27 +19,26 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
-	"time"
 )
 
 func main() {
 	var (
-		addr       = flag.String("addr", ":8082", "the microservices grpc address")
-		debugAddr  = flag.String("debug.addr", ":6062", "the debug and metrics address")
+		addr       = flag.String("addr", ":8084", "the microservices grpc address")
+		debugAddr  = flag.String("debug.addr", ":6064", "the debug and metrics address")
 		etcdAddr   = flag.String("etcd.addr", "", "etcd registry address")
 		zipkinAddr = flag.String("zipkin.addr", "", "the zipkin address")
 	)
 	flag.Parse()
-	key := "/services/feed/" + *addr
+	key := "/services/topic/" + *addr
 	value := *addr
 	ctx := context.Background()
-	// logger
+
+	//logger
 	var logger log.Logger
 	logger = log.NewLogfmtLogger(os.Stdout)
-
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 	logger = log.With(logger, "caller", log.DefaultCaller)
-	logger = log.With(logger, "service", "feed")
+	logger = log.With(logger, "service", "topic")
 
 	// Service registrar domain. In this example we use etcd.
 	var sdClient etcd.Client
@@ -57,7 +56,6 @@ func main() {
 	registrar := etcd.NewRegistrar(sdClient, etcd.Service{
 		Key:   key,
 		Value: value,
-		TTL:   etcd.NewTTLOption(time.Second, time.Second*3),
 	}, log.NewNopLogger())
 
 	// Register our instance.
@@ -78,7 +76,7 @@ func main() {
 			os.Exit(1)
 		}
 		tracer, err = zipkin.NewTracer(
-			zipkin.NewRecorder(collector, false, "localhost:80", "feed"),
+			zipkin.NewRecorder(collector, false, "localhost:80", "topic"),
 		)
 		if err != nil {
 			logger.Log("err", err)
@@ -86,7 +84,7 @@ func main() {
 		}
 	}
 
-	service := feed.NewFeedService()
+	service := lib.NewTopicService()
 
 	errchan := make(chan error)
 
@@ -102,9 +100,9 @@ func main() {
 		return
 	}
 
-	srv := feed.MakeGRPCServer(service, tracer, logger)
+	srv := lib.MakeGRPCServer(ctx, service, tracer, logger)
 	s := grpc.NewServer()
-	p_feed.RegisterFeedServer(s, srv)
+	p_topic.RegisterTopicServer(s, srv)
 
 	go func() {
 		//logger := log.NewContext(logger).With("transport", "gRPC")

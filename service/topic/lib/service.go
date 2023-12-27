@@ -1,4 +1,4 @@
-package topic
+package lib
 
 import (
 	"errors"

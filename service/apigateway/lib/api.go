@@ -1,6 +1,8 @@
-package apigateway
+package lib
 
-import "github.com/gin-gonic/gin"
+import (
+    "github.com/gin-gonic/gin"
+)
 
 func Register(router *gin.Engine) {
 	r := router.Group("/api")

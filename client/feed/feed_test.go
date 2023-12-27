@@ -1,26 +1,26 @@
 package feed_test
 
 import (
-	"github.com/go-kit/kit/log"
-	"github.com/opentracing/opentracing-go"
-	client "github.com/yxm0513/go-micro-service/client/feed"
-	"github.com/yxm0513/go-micro-service/feed"
-	p_feed "github.com/yxm0513/go-micro-service/proto/feed"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-	"net"
-	"testing"
-	"time"
+    "github.com/go-kit/kit/log"
+    "github.com/opentracing/opentracing-go"
+    client "github.com/yxm0513/go-micro-service/client/feed"
+    p_feed "github.com/yxm0513/go-micro-service/proto/feed"
+    "github.com/yxm0513/go-micro-service/service/feed/lib"
+    "golang.org/x/net/context"
+    "google.golang.org/grpc"
+    "net"
+    "testing"
+    "time"
 )
 
 func runFeedServer(addr string) *grpc.Server {
-	service := feed.NewFeedService()
+	service := lib.NewFeedService()
 
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		panic(err)
 	}
-	srv := feed.MakeGRPCServer(service, opentracing.NoopTracer{}, log.NewNopLogger())
+	srv := lib.MakeGRPCServer(service, opentracing.NoopTracer{}, log.NewNopLogger())
 	s := grpc.NewServer()
 	p_feed.RegisterFeedServer(s, srv)
 

@@ -1,4 +1,4 @@
-package profile
+package lib
 
 import (
 	"context"
@@ -11,14 +11,14 @@ import (
 	grpctransport "github.com/go-kit/kit/transport/grpc"
 	stdopentracing "github.com/opentracing/opentracing-go"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
-	"github.com/yxm0513/go-micro-service/proto/profile"
+	"github.com/yxm0513/go-micro-service/proto/topic"
 	oldcontext "golang.org/x/net/context"
 	"time"
 )
 
 var (
 	duration metrics.Histogram = prometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
-		Namespace: "profile",
+		Namespace: "topic",
 		Name:      "request_duration_ns",
 		Help:      "Request duration in nanoseconds.",
 	}, []string{"method", "success"})
@@ -48,43 +48,43 @@ func EndpointLoggingMiddleware(logger log.Logger) endpoint.Middleware {
 	}
 }
 
-func MakeGetPrifileEndpoint(s profile.ProfileServer, tracer stdopentracing.Tracer, logger log.Logger) endpoint.Endpoint {
+func MakeGetTopicEndpoint(s topic.TopicServer, tracer stdopentracing.Tracer, logger log.Logger) endpoint.Endpoint {
 	ep := func(ctx context.Context, request interface{}) (response interface{}, err error) {
-		req := request.(*profile.GetProfileRequest)
-		return s.GetProfile(ctx, req)
+		req := request.(*topic.GetTopicRequest)
+		return s.GetTopic(ctx, req)
 	}
-	epduration := duration.With("method", "GetProfile")
-	eplog := log.With(logger, "method", "GetProfile")
-	ep = opentracing.TraceServer(tracer, "GetProfile")(ep)
+	epduration := duration.With("method", "GetTopic")
+	eplog := log.With(logger, "method", "GetTopic")
+	ep = opentracing.TraceServer(tracer, "GetTopic")(ep)
 	ep = EndpointInstrumentingMiddleware(epduration)(ep)
 	ep = EndpointLoggingMiddleware(eplog)(ep)
 	return ep
 }
 
 // MakeGRPCServer makes a set of endpoints available as a gRPC AddServer.
-func MakeGRPCServer(ctx context.Context, s profile.ProfileServer, tracer stdopentracing.Tracer, logger log.Logger) profile.ProfileServer {
+func MakeGRPCServer(ctx context.Context, s topic.TopicServer, tracer stdopentracing.Tracer, logger log.Logger) topic.TopicServer {
 	options := []grpctransport.ServerOption{
 		grpctransport.ServerErrorLogger(logger),
 	}
 
 	return &grpcServer{
-		getprofile: grpctransport.NewServer(
-			MakeGetPrifileEndpoint(s, tracer, logger),
+		gettopic: grpctransport.NewServer(
+			MakeGetTopicEndpoint(s, tracer, logger),
 			func(_ context.Context, request interface{}) (interface{}, error) { return request, nil },
 			func(_ context.Context, request interface{}) (interface{}, error) { return request, nil },
-			append(options, grpctransport.ServerBefore(opentracing.GRPCToContext(tracer, "GetProfile", logger)))...,
+			append(options, grpctransport.ServerBefore(opentracing.GRPCToContext(tracer, "GetTopic", logger)))...,
 		),
 	}
 }
 
 type grpcServer struct {
-	getprofile grpctransport.Handler
+	gettopic grpctransport.Handler
 }
 
-func (s *grpcServer) GetProfile(ctx oldcontext.Context, req *profile.GetProfileRequest) (*profile.GetProfileResponse, error) {
-	_, rep, err := s.getprofile.ServeGRPC(ctx, req)
+func (s *grpcServer) GetTopic(ctx oldcontext.Context, req *topic.GetTopicRequest) (*topic.GetTopicResponse, error) {
+	_, rep, err := s.gettopic.ServeGRPC(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return rep.(*profile.GetProfileResponse), nil
+	return rep.(*topic.GetTopicResponse), nil
 }
